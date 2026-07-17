@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Évaluation Angles et Sécanantes - 5ème</title>
+    <style>
+        :root {
+            --bg-color: #0b0b0c;
+            --card-bg: #16161a;
+            --accent-color: #39ff14;
+            --text-main: #ffffff;
+            --text-muted: #8e8e93;
+            --border-color: #2c2c2e;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .app-container {
+            max-width: 750px;
+            width: 100%;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .header {
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 20px;
+            font-weight: 800;
+            margin: 0 0 5px 0;
+            text-transform: uppercase;
+            letter-spacing: -0.5px;
+            color: var(--text-main);
+        }
+
+        .header .subtitle {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        label {
+            display: block;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            background-color: #222227;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 14px;
+            color: var(--text-main);
+            font-size: 16px;
+            box-sizing: border-box;
+            outline: none;
+            margin-bottom: 15px;
+        }
+
+        input[type="text"]:focus {
+            border-color: var(--accent-color);
+        }
+
+        .consigne {
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            color: var(--text-main);
+        }
+        
+        .question-box {
+            background-color: #1e1e24;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .geometry-svg {
+            background-color: #222227;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            max-width: 100%;
+            height: auto;
+        }
+
+        .statement-text {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 10px;
+            color: #ffffff;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        button.action-btn {
+            flex: 1;
+            font-weight: 700;
+            border: none;
+            border-radius: 8px;
+            padding: 14px 20px;
+            font-size: 14px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-start {
+            background-color: var(--accent-color);
+            color: #000000;
+            font-weight: 700;
+            border: none;
+            border-radius: 8px;
+            padding: 14px 20px;
+            font-size: 14px;
+            cursor: pointer;
+            width: 100%;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-submit {
+            background-color: var(--accent-color);
+            color: #000000;
+        }
+
+        .btn-skip {
+            background-color: #2c2c2e;
+            color: #e5e5ea;
+            border: 1px solid #48484a;
+        }
+        
+        .progress-bar {
+            background-color: #2c2c2e;
+            border-radius: 4px;
+            height: 6px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background-color: var(--accent-color);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        .indicator {
+            text-align: right;
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 15px;
+        }
+
+        .result-box {
+            background: #1e1e24;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid var(--accent-color);
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .score-display {
+            font-size: 48px;
+            font-weight: 800;
+            color: var(--accent-color);
+            margin: 15px 0;
+        }
+        
+        table.bilan {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        table.bilan th, table.bilan td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .row-correct { color: var(--accent-color); }
+        .row-incorrect { color: #ff453a; }
+        .row-skipped { color: #e5e5ea; }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <div class="header">
+        <h1>Géométrie : Angles & Sécanantes</h1>
+        <div class="subtitle">5ème — Angles définis par deux droites et une sécante</div>
+    </div>
+
+    <!-- ÉTAPE 1 : ENREGISTREMENT -->
+    <div id="panel-login" class="step-panel" style="display: block;">
+        <div style="margin-bottom: 20px;">
+            <label for="student-name">Nom et Prénom de l'élève :</label>
+            <input type="text" id="student-name" placeholder="Ex: Chloé Martin" autocomplete="off">
+        </div>
+        <button class="btn-start" onclick="startTest()">Démarrer l'évaluation</button>
+    </div>
+
+    <!-- ÉTAPE 2 : EXERCICES -->
+    <div id="panel-quiz" class="step-panel" style="display: none;">
+        <div class="indicator">Question <span id="current-q">1</span> / 8</div>
+        <div class="progress-bar"><div id="progress-fill" class="progress-fill"></div></div>
+        
+        <div class="consigne" id="q-consigne">Analyse la figure attentivement.</div>
+        
+        <div class="question-box" id="q-box"></div>
+        
+        <div style="background-color: #1e1e24; padding: 20px; border-radius: 8px; border: 1px solid var(--border-color);">
+            <div>
+                <label for="user-answer" id="label-reponse">Ta réponse :</label>
+                <input type="text" id="user-answer" placeholder="Ex: 54 ou alternes-internes" autocomplete="off">
+            </div>
+            
+            <div class="btn-group">
+                <button class="action-btn btn-skip" onclick="skipQuestion()">Passer ⏭️</button>
+                <button class="action-btn btn-submit" id="btn-validate" onclick="submitAnswer()">Valider la réponse</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ÉTAPE 3 : RAPPORTS -->
+    <div id="panel-results" class="step-panel" style="display: none;">
+        <div class="result-box">
+            <h2>Fin de l'évaluation</h2>
+            <p>Élève : <span id="res-name" style="font-weight: bold; color: #fff;">...</span></p>
+            <div class="score-display" id="res-grade">0 / 8</div>
+        </div>
+
+        <h3 style="margin-top:30px; color: var(--text-main); font-size:15px; text-transform:uppercase; border-bottom:1px solid var(--border-color); padding-bottom:8px;">Bilan détaillé</h3>
+        <table class="bilan">
+            <thead>
+                <tr>
+                    <th>Type d'exercice</th>
+                    <th>Énoncé & Représentation</th>
+                    <th>Ta réponse</th>
+                    <th>Correction attendue</th>
+                </tr>
+            </thead>
+            <tbody id="bilan-table-body"></tbody>
+        </table>
+
+        <button class="btn-start" style="margin-top: 30px;" onclick="window.location.reload()">Générer une nouvelle série</button>
+    </div>
+</div>
+
+<script>
+    let quizQuestions = [];
+    let currentIndex = 0;
+    let score = 0;
+    let studentName = "";
+
+    function randRange(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    // GÉNÉRATION DE LA SÉRIE DE GÉOMÉTRIE (8 QUESTIONS)
+    function buildQuizData() {
+        quizQuestions = [];
+
+        // --- FIGURE VECTORIELLE TYPE 1 : DEUX PARALLÈLES ET UNE SÉCANTE COUPE-TOUT ---
+        const svgConfig1 = `
+            <svg class="geometry-svg" width="320" height="180" viewBox="0 0 320 180">
+                <!-- Droites parallèles -->
+                <line x1="20" y1="50" x2="300" y2="50" stroke="#8e8e93" stroke-width="2"/>
+                <line x1="20" y1="130" x2="300" y2="130" stroke="#8e8e93" stroke-width="2"/>
+                <!-- Sécante -->
+                <line x1="60" y1="20" x2="260" y2="160" stroke="#ffffff" stroke-width="2"/>
+                <!-- Points d'intersection -->
+                <circle cx="102.8" cy="50" r="3" fill="#39ff14"/>
+                <text x="95" y="42" fill="#fff" font-size="12" font-weight="bold">A</text>
+                <circle cx="217.1" cy="130" r="3" fill="#39ff14"/>
+                <text x="225" y="145" fill="#fff" font-size="12" font-weight="bold">B</text>
+                <!-- Autres repères de direction -->
+                <text x="290" y="42" fill="#8e8e93" font-size="11">x</text>
+                <text x="290" y="122" fill="#8e8e93" font-size="11">y</text>
+                <text x="45" y="30" fill="#8e8e93" font-size="11">z</text>
+                <text x="265" y="155" fill="#8e8e93" font-size="11">w</text>
+                <!-- Indicateurs d'angles colorés pour la lisibilité -->
+                <path d="M 122.8 50 A 20 20 0 0 1 114.2 62 L 102.8 50 Z" fill="rgba(255, 69, 58, 0.4)" stroke="#ff453a"/>
+                <text x="125" y="68" fill="#ff453a" font-size="11">1</text>
+                <path d="M 82.8 50 A 20 20 0 0 1 91.4 38 L 102.8 50 Z" fill="rgba(57, 255, 20, 0.3)" stroke="#39ff14"/>
+                <text x="75" y="40" fill="#39ff14" font-size="11">2</text>
+                <path d="M 237.1 130 A 20 20 0 0 1 228.5 142 L 217.1 130 Z" fill="rgba(255, 69, 58, 0.4)" stroke="#ff453a"/>
+                <text x="240" y="148" fill="#ff453a" font-size="11">3</text>
+                <path d="M 197.1 130 A 20 20 0 0 1 205.7 118 L 217.1 130 Z" fill="rgba(0, 122, 255, 0.4)" stroke="#007aff"/>
+                <text x="185" y="120" fill="#007aff" font-size="11">4</text>
+            </svg>`;
+
+        // Q1 : Vocabulaire - Alternes-internes
+        quizQuestions.push({
+            type: "Vocabulaire (Ex 1 & 3)",
+            display: svgConfig1 + `<div class="statement-text">Quelle est la nature du couple d'angles 1 et 4 ?</div>`,
+            answer: "alternes-internes",
+            check: function(u) { 
+                let s = u.toLowerCase().trim().replace(/ /g, "").replace(/-/g, "");
+                return s.includes("alterne") && s.includes("interne");
+            }
+        });
+
+        // Q2 : Vocabulaire - Correspondants
+        quizQuestions.push({
+            type: "Vocabulaire (Ex 1 & 3)",
+            display: svgConfig1 + `<div class="statement-text">Quelle est la nature du couple d'angles 2 et 4 ?</div>`,
+            answer: "correspondants",
+            check: function(u) { 
+                let s = u.toLowerCase().trim().replace(/é/g, "e");
+                return s.includes("correspondant");
+            }
+        });
+
+        // Q3 : Vocabulaire - Opposés par le sommet
+        quizQuestions.push({
+            type: "Vocabulaire (Ex 2 & 3)",
+            display: svgConfig1 + `<div class="statement-text">Quelle est la nature du couple d'angles 1 et 2 ?</div>`,
+            answer: "opposes par le sommet",
+            check: function(u) { 
+                let s = u.toLowerCase().trim().replace(/é/g, "e");
+                return s.includes("oppose") && (s.includes("sommet") || s.includes("meme"));
+            }
+        });
+
+
+        // --- FIGURE VECTORIELLE TYPE 2 : EXERCICE 4 DE LA FICHE (Calcul d'angle complexe) ---
+        let angleD = randRange(115, 140);
+        let angleAttendu = angleD - 90; // Car (AB) perp (BD) et (AB) perp (AC) => parallèles, donc angles alternes-internes/correspondants modifiés
+
+        const svgConfig2 = `
+            <svg class="geometry-svg" width="320" height="180" viewBox="0 0 320 180">
+                <!-- Lignes horizontales principales -->
+                <line x1="30" y1="45" x2="290" y2="90" stroke="#ffffff" stroke-width="2"/>
+                <line x1="10" y1="100" x2="280" y2="150" stroke="#ffffff" stroke-width="2"/>
+                <!-- Ligne perpendiculaire gauche (AB) -->
+                <line x1="70" y1="20" x2="95" y2="160" stroke="#8e8e93" stroke-width="1.5"/>
+                <!-- Droite sécante (w x) -->
+                <line x1="50" y1="160" x2="260" y2="40" stroke="#39ff14" stroke-width="2"/>
+                
+                <!-- Symboles Angles Droits -->
+                <rect x="71" y="44" width="10" height="10" fill="none" stroke="#39ff14" transform="rotate(11 71 44)"/>
+                <rect x="85" y="112" width="10" height="10" fill="none" stroke="#39ff14" transform="rotate(11 85 112)"/>
+                
+                <!-- Lettres des Sommets -->
+                <text x="60" y="40" fill="#fff" font-size="12" font-weight="bold">A</text>
+                <text x="73" y="125" fill="#fff" font-size="12" font-weight="bold">B</text>
+                <text x="215" y="70" fill="#fff" font-size="12" font-weight="bold">C</text>
+                <text x="175" y="145" fill="#fff" font-size="12" font-weight="bold">D</text>
+                
+                <!-- Angle mesuré -->
+                <path d="M 165 125 A 18 18 0 0 0 195 137 L 175 128 Z" fill="rgba(255,149,0,0.5)"/>
+                <text x="160" y="160" fill="#ff9500" font-size="12" font-weight="bold">${angleD}°</text>
+            </svg>`;
+
+        // Q4 : Calcul direct sur modèle de l'exercice 4
+        quizQuestions.push({
+            type: "Calcul de mesure (Ex 4)",
+            display: svgConfig2 + `<div class="statement-text">Les droites (AB) et (AC) sont perpendiculaires, de même que (AB) et (BD). Calcule la mesure de l'angle ̂ACD (en degrés) :</div>`,
+            answer: `${angleAttendu}`,
+            check: function(u) { return parseInt(u.trim()) === angleAttendu; }
+        });
+
+
+        // --- FIGURE VECTORIELLE TYPE 3 : EXERCICE 6 DE LA FICHE (Trois questions séquentielles) ---
+        let a1 = randRange(55, 65); // Angle F
+        let a2 = randRange(68, 74); // Angle A gauche
+        let a3 = 180 - (a1 + a2);   // Angle C milieu (Alternes-internes)
+        
+        // On va générer une configuration parallèle ou non pour la dernière question
+        let estParallele = Math.random() > 0.5;
+        let angleZ = estParallele ? (180 - a2) : (180 - a2 + randRange(4, 12)); 
+
+        const svgConfig3 = `
+            <svg class="geometry-svg" width="340" height="180" viewBox="0 0 340 180">
+                <!-- Droites FA et CB -->
+                <line x1="20" y1="45" x2="320" y2="45" stroke="#ffffff" stroke-width="2"/>
+                <line x1="20" y1="125" x2="320" y2="125" stroke="#ffffff" stroke-width="2"/>
+                <!-- Lignes intérieures formant le triangle -->
+                <line x1="45" y1="45" x2="115" y2="125" stroke="#8e8e93" stroke-width="1.5"/>
+                <line x1="175" y1="45" x2="115" y2="125" stroke="#8e8e93" stroke-width="1.5"/>
+                <line x1="175" y1="45" x2="265" y2="125" stroke="#39ff14" stroke-width="1.5"/>
+                
+                <!-- Marquages de texte -->
+                <text x="40" y="35" fill="#fff" font-size="12" font-weight="bold">F</text>
+                <text x="175" y="35" fill="#fff" font-size="12" font-weight="bold">A</text>
+                <text x="105" y="142" fill="#fff" font-size="12" font-weight="bold">C</text>
+                <text x="265" y="142" fill="#fff" font-size="12" font-weight="bold">B</text>
+                
+                <!-- Données numériques mobiles -->
+                <text x="55" y="60" fill="#ff453a" font-size="11">${a1}°</text>
+                <text x="145" y="60" fill="#ff9500" font-size="11">${a2}°</text>
+                <text x="112" y="110" fill="#007aff" font-size="11">${a3}°</text>
+                
+                <!-- Marquage sous l'angle B extérieur -->
+                <text x="270" y="155" fill="#39ff14" font-size="11">${angleZ}°</text>
+            </svg>`;
+
+        // Q5 : Angle alternatif/supplémentaire basique
+        quizQuestions.push({
+            type: "Calculs en cascade (Ex 6.1)",
+            display: svgConfig3 + `<div class="statement-text">Sachant que (FA) et (CB) sont strictement parallèles, trouve la mesure de l'angle ̂FCA (en bleu) :</div>`,
+            answer: `${a3}`,
+            check: function(u) { return parseInt(u.trim()) === a3; }
+        });
+
+        // Q6 : Somme des angles d'un triangle ou angle plat complet
+        let angleBCF_Attendu = a1; // Propriété alternes-internes immédiate de l'angle F
+        quizQuestions.push({
+            type: "Calculs en cascade (Ex 6.2)",
+            display: svgConfig3 + `<div class="statement-text">Détermine la mesure de l'angle ̂BCF (formé par la sécante (FC)) :</div>`,
+            answer: `${angleBCF_Attendu}`,
+            check: function(u) { return parseInt(u.trim()) === angleBCF_Attendu; }
+        });
+
+        // Q7 : Démonstration de parallélisme (Exercice 6, Question 3 de ta fiche)
+        quizQuestions.push({
+            type: "Raisonnement géométrique (Ex 6.3)",
+            display: svgConfig3 + `<div class="statement-text">Au vu des mesures fournies sur le schéma, les droites (AB) et (FC) sont-elles parallèles ? (Réponds par OUI ou NON)</div>`,
+            answer: estParallele ? "OUI" : "NON",
+            check: function(u) { return u.toUpperCase().trim() === (estParallele ? "OUI" : "NON"); }
+        });
+
+        // Q8 : Propriété directe supplémentaire
+        let angleSuppl = 180 - a1;
+        quizQuestions.push({
+            type: "Angles supplémentaires (Ex 3)",
+            display: svgConfig3 + `<div class="statement-text">Calcule le supplément de l'angle de ${a1}° (c'est-à-dire l'angle adjacent qui formerait un angle plat) :</div>`,
+            answer: `${angleSuppl}`,
+            check: function(u) { return parseInt(u.trim()) === angleSuppl; }
+        });
+
+        // Pas de mélange forcé ici pour conserver la cohérence pédagogique de la progression géométrique
+    }
+
+    function startTest() {
+        const nameInput = document.getElementById("student-name").value.trim();
+        if (nameInput === "") { alert("Veuillez inscrire votre Nom et votre Prénom pour enregistrer vos résultats."); return; }
+        studentName = nameInput;
+        
+        currentIndex = 0;
+        score = 0;
+        buildQuizData();
+        
+        document.getElementById("panel-login").style.display = "none";
+        document.getElementById("panel-quiz").style.display = "block";
+        
+        loadQuestion();
+    }
+
+    function loadQuestion() {
+        if (currentIndex >= quizQuestions.length) { endTest(); return; }
+        const q = quizQuestions[currentIndex];
+        
+        document.getElementById("current-q").innerText = currentIndex + 1;
+        document.getElementById("q-box").innerHTML = q.display;
+        document.getElementById("user-answer").value = "";
+        document.getElementById("user-answer").focus();
+        
+        if (q.answer === "OUI" || q.answer === "NON") {
+            document.getElementById("q-consigne").innerText = "Rédige une conclusion logique claire :";
+            document.getElementById("label-reponse").innerText = "Tape OUI ou NON :";
+        } else if (isNaN(q.answer)) {
+            document.getElementById("q-consigne").innerText = "Identifie la relation géométrique exacte entre ces angles :";
+            document.getElementById("label-reponse").innerText = "Entre le nom de la propriété mathématique (ex: correspondants) :";
+        } else {
+            document.getElementById("q-consigne").innerText = "Utilise les propriétés géométriques du cours pour calculer la mesure manquante :";
+            document.getElementById("label-reponse").innerText = "Donne la valeur chiffrée pure (Ex: 65, sans ajouter le symbole °) :";
+        }
+        
+        document.getElementById("progress-fill").style.width = (currentIndex / quizQuestions.length) * 100 + "%";
+    }
+
+    function submitAnswer() {
+        if (currentIndex >= quizQuestions.length) return;
+        const q = quizQuestions[currentIndex];
+        let userAnswer = document.getElementById("user-answer").value.trim();
+        if (!userAnswer) { alert("Laisse une trace écrite ! Saisis une réponse avant de valider."); return; }
+        
+        q.savedAns = userAnswer;
+        if (q.check(userAnswer)) {
+            q.status = "correct";
+            score++;
+        } else {
+            q.status = "incorrect";
+        }
+        
+        currentIndex++; 
+        loadQuestion();
+    }
+
+    function skipQuestion() {
+        if (currentIndex >= quizQuestions.length) return;
+        const q = quizQuestions[currentIndex];
+        q.status = "skipped"; 
+        q.savedAns = "Non répondu ⏭️";
+        currentIndex++; 
+        loadQuestion();
+    }
+
+    function endTest() {
+        document.getElementById("panel-quiz").style.display = "none";
+        document.getElementById("panel-results").style.display = "block";
+        
+        document.getElementById("res-name").innerText = studentName;
+        const displayGrade = document.getElementById("res-grade");
+        displayGrade.innerText = `${score} / ${quizQuestions.length}`;
+        
+        if(score >= 6) displayGrade.style.color = "var(--accent-color)";
+        else if(score >= 4) displayGrade.style.color = "#ff9500";
+        else displayGrade.style.color = "#ff453a";
+
+        const tableBody = document.getElementById("bilan-table-body");
+        tableBody.innerHTML = ""; 
+        
+        for (let i = 0; i < quizQuestions.length; i++) {
+            const q = quizQuestions[i];
+            const row = document.createElement("tr");
+            
+            if (q.status === "correct") row.className = "row-correct";
+            else if (q.status === "skipped") row.className = "row-skipped";
+            else row.className = "row-incorrect";
+            
+            const badgeCorrection = q.status === "correct" 
+                ? `<span>Correct ✅</span>` 
+                : `<span style="font-weight:bold; color:#ff453a;">${q.answer}</span>`;
+                
+            row.innerHTML = `<td><strong>${q.type}</strong></td><td>${q.display}</td><td>${q.savedAns}</td><td>${badgeCorrection}</td>`;
+            tableBody.appendChild(row);
+        }
+    }
+
+    document.getElementById("user-answer").addEventListener("keyup", function(e) { 
+        if (e.key === "Enter") submitAnswer(); 
+    });
+</script>
+</body>
+</html>
