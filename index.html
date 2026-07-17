@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entraînement : Angles et Propriétés - 5ème</title>
+    <style>
+        :root {
+            --bg-color: #0b0b0c;
+            --card-bg: #16161a;
+            --accent-color: #39ff14;
+            --text-main: #ffffff;
+            --text-muted: #8e8e93;
+            --border-color: #2c2c2e;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .app-container {
+            max-width: 700px;
+            width: 100%;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .header {
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 20px;
+            font-weight: 800;
+            margin: 0 0 5px 0;
+            text-transform: uppercase;
+            letter-spacing: -0.5px;
+            color: var(--text-main);
+        }
+
+        .header .subtitle {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        label {
+            display: block;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            background-color: #222227;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 14px;
+            color: var(--text-main);
+            font-size: 16px;
+            box-sizing: border-box;
+            outline: none;
+            margin-bottom: 15px;
+        }
+
+        input[type="text"]:focus {
+            border-color: var(--accent-color);
+        }
+
+        .consigne {
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            color: var(--text-muted);
+        }
+        
+        .question-box {
+            background-color: #1e1e24;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 25px;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .notation-geo {
+            font-family: "Courier New", Courier, monospace;
+            background: #2c2c2e;
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        button.action-btn {
+            flex: 1;
+            font-weight: 700;
+            border: none;
+            border-radius: 8px;
+            padding: 14px 20px;
+            font-size: 14px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-start {
+            background-color: var(--accent-color);
+            color: #000000;
+            font-weight: 700;
+            border: none;
+            border-radius: 8px;
+            padding: 14px 20px;
+            font-size: 14px;
+            cursor: pointer;
+            width: 100%;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-submit {
+            background-color: var(--accent-color);
+            color: #000000;
+        }
+
+        .btn-skip {
+            background-color: #2c2c2e;
+            color: #e5e5ea;
+            border: 1px solid #48484a;
+        }
+        
+        .progress-bar {
+            background-color: #2c2c2e;
+            border-radius: 4px;
+            height: 6px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background-color: var(--accent-color);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        .indicator {
+            text-align: right;
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 15px;
+        }
+
+        .result-box {
+            background: #1e1e24;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid var(--accent-color);
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .score-display {
+            font-size: 48px;
+            font-weight: 800;
+            color: var(--accent-color);
+            margin: 15px 0;
+        }
+        
+        table.bilan {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        table.bilan th, table.bilan td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .row-correct { color: var(--accent-color); }
+        .row-incorrect { color: #ff453a; }
+        .row-skipped { color: #e5e5ea; }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <div class="header">
+        <h1>Géométrie : Angles 5ème</h1>
+        <div class="subtitle">Vocabulaire & Calculs (Modèle Fiche d'Exercices)</div>
+    </div>
+
+    <!-- ETAPE 1 : IDENTIFICATION -->
+    <div id="panel-login" class="step-panel" style="display: block;">
+        <div style="margin-bottom: 20px;">
+            <label for="student-name">Nom et Prénom de l'élève :</label>
+            <input type="text" id="student-name" placeholder="Ex: Lucas Petit" autocomplete="off">
+        </div>
+        <button class="btn-start" onclick="startTest()">Commencer la série d'exercices</button>
+    </div>
+
+    <!-- ETAPE 2 : LE TEST -->
+    <div id="panel-quiz" class="step-panel" style="display: none;">
+        <div class="indicator">Question <span id="current-q">1</span> / 8</div>
+        <div class="progress-bar"><div id="progress-fill" class="progress-fill"></div></div>
+        
+        <div class="consigne" id="q-consigne">Lisez attentivement l'énoncé de géométrie.</div>
+        
+        <div class="question-box" id="q-box"></div>
+        
+        <div style="background-color: #1e1e24; padding: 20px; border-radius: 8px; border: 1px solid var(--border-color);">
+            <div>
+                <label for="user-answer" id="label-reponse">Votre réponse :</label>
+                <input type="text" id="user-answer" placeholder="Tapez votre réponse ici..." autocomplete="off">
+            </div>
+            
+            <div class="btn-group">
+                <button class="action-btn btn-skip" onclick="skipQuestion()">Passer ⏭️</button>
+                <button class="action-btn btn-submit" id="btn-validate" onclick="submitAnswer()">Valider</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ETAPE 3 : BILAN -->
+    <div id="panel-results" class="step-panel" style="display: none;">
+        <div class="result-box">
+            <h2>Résultats de l'évaluation</h2>
+            <p>Élève : <span id="res-name" style="font-weight: bold; color: #fff;">...</span></p>
+            <div class="score-display" id="res-grade">0 / 8</div>
+        </div>
+
+        <h3 style="margin-top:30px; color: var(--text-main); font-size:14px; text-transform:uppercase; border-bottom:1px solid var(--border-color); padding-bottom:8px;">Détail des réponses</h3>
+        <table class="bilan">
+            <thead>
+                <tr>
+                    <th>Type de question</th>
+                    <th>Énoncé mathématique</th>
+                    <th>Votre réponse</th>
+                    <th>Correction</th>
+                </tr>
+            </thead>
+            <tbody id="bilan-table-body"></tbody>
+        </table>
+
+        <button class="btn-start" style="margin-top: 30px;" onclick="window.location.reload()">Recommencer avec d'autres données</button>
+    </div>
+</div>
+
+<script>
+    let quizQuestions = [];
+    let currentIndex = 0;
+    let score = 0;
+    let studentName = "";
+
+    function randRange(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function buildQuizData() {
+        quizQuestions = [];
+
+        // --- ENTRAÎNEMENT 1 : VOCABULAIRE DES ANGLES (Inspiré Ex 2 & 3) ---
+        quizQuestions.push({
+            type: "Vocabulaire (Ex 2 & 3)",
+            statement: "Deux droites coupées par une sécante forment deux angles situés entre les deux droites, de part et d'autre de la sécante. Comment qualifie-t-on ces angles ?",
+            answer: "alternes-internes",
+            placeholder: "Ex: correspondants, alternes-internes...",
+            check: function(u) {
+                let s = u.toLowerCase().trim().replace(/ /g, "").replace(/-/g, "").replace(/é/g, "e");
+                return s.includes("alterne") && s.includes("interne");
+            }
+        });
+
+        quizQuestions.push({
+            type: "Vocabulaire (Ex 2 & 3)",
+            statement: "Deux droites coupées par une sécante forment deux angles situés du même côté de la sécante, l'un entre les deux droites, l'autre à l'extérieur. Comment qualifie-t-on ces angles ?",
+            answer: "correspondants",
+            placeholder: "Ex: opposés par le sommet, correspondants...",
+            check: function(u) {
+                let s = u.toLowerCase().trim().replace(/é/g, "e");
+                return s.includes("correspondant");
+            }
+        });
+
+        quizQuestions.push({
+            type: "Vocabulaire (Ex 2 & 3)",
+            statement: "Si deux angles partagent le même sommet et que leurs côtés sont dans le prolongement l'un de l'autre, on dit qu'ils sont...",
+            answer: "opposes par le sommet",
+            placeholder: "Complétez la phrase...",
+            check: function(u) {
+                let s = u.toLowerCase().trim().replace(/é/g, "e");
+                return s.includes("oppose") && s.includes("sommet");
+            }
+        });
+
+        // --- ENTRAÎNEMENT 2 : PROPRIÉTÉS DIRECTES ET CALCULS (Inspiré Ex 3 & 4) ---
+        let angA = randRange(40, 80);
+        let supplA = 180 - angA;
+        quizQuestions.push({
+            type: "Propriétés (Ex 3)",
+            statement: `Deux angles <span class="notation-geo">̂ABC</span> et <span class="notation-geo">̂CBD</span> sont adjacents et supplémentaires. Si la mesure de <span class="notation-geo">̂ABC</span> est de <b>${angA}°</b>, quelle est la mesure de l'angle <span class="notation-geo">̂CBD</span> en degrés ?`,
+            answer: `${supplA}`,
+            placeholder: "Entrez la valeur numérique pure",
+            check: function(u) { return parseInt(u.trim()) === supplA; }
+        });
+
+        let angVal1 = randRange(50, 75);
+        quizQuestions.push({
+            type: "Droites Parallèles (Ex 4)",
+            statement: `Deux droites parallèles sont coupées par une sécante. Si l'un des angles <b>alternes-internes</b> mesure <b>${angVal1}°</b>, quelle est la mesure en degrés de son angle alterne-interne associé ?`,
+            answer: `${angVal1}`,
+            placeholder: "Entrez la valeur numérique pure",
+            check: function(u) { return parseInt(u.trim()) === angVal1; }
+        });
+
+        let angVal2 = randRange(110, 145);
+        let repVal2 = 180 - angVal2;
+        quizQuestions.push({
+            type: "Calculs d'angles",
+            statement: `Deux droites parallèles sont coupées par une sécante. Un angle <b>correspondant</b> mesure <b>${angVal2}°</b>. Combien mesure l'angle adjacent à son associé qui permet de former un angle plat (son supplémentaire) ?`,
+            answer: `${repVal2}`,
+            placeholder: "Entrez la valeur numérique pure",
+            check: function(u) { return parseInt(u.trim()) === repVal2; }
+        });
+
+        // --- ENTRAÎNEMENT 3 : CONFIGURATIONS COMPLÈTES (Inspiré Ex 4 & 6) ---
+        // Modèle Ex 4 : Droites perpendiculaires à une même troisième
+        let angObtus = randRange(120, 140);
+        let angRep4 = angObtus - 90;
+        quizQuestions.push({
+            type: "Configuration complexe (Ex 4)",
+            statement: `Sur une figure, les droites $(AB)$ et $(AC)$ sont perpendiculaires. Les droites $(AB)$ et $(BD)$ sont également perpendiculaires. Une sécante coupe ces droites et crée un angle donné de <b>${angObtus}°</b> au sommet $D$. En utilisant la propriété des droites parallèles coupées par une sécante, déterminez l'angle aigu associé au sommet $C$ (en degrés) :`,
+            answer: `${angRep4}`,
+            placeholder: "Calculez la valeur en degrés",
+            check: function(u) { return parseInt(u.trim()) === angRep4; }
+        });
+
+        // Modèle Ex 6 : Vérification de parallélisme
+        let testParallele = Math.random() > 0.5;
+        let angF = randRange(55, 65);
+        let angC = testParallele ? angF : angF + randRange(3, 10);
+        quizQuestions.push({
+            type: "Raisonnement (Ex 6)",
+            statement: `On étudie deux droites coupées par une sécante. On mesure deux angles <b>alternes-internes</b> : le premier mesure <b>${angF}°</b> et le second mesure <b>${angC}°</b>. Les deux droites coupées par la sécante sont-elles parallèles ? (Répondez par <b>OUI</b> ou <b>NON</b>)`,
+            answer: testParallele ? "OUI" : "NON",
+            placeholder: "Tapez OUI ou NON",
+            check: function(u) { return u.toUpperCase().trim() === (testParallele ? "OUI" : "NON"); }
+        });
+    }
+
+    function startTest() {
+        const nameInput = document.getElementById("student-name").value.trim();
+        if (nameInput === "") { alert("Veuillez entrer votre prénom et votre nom."); return; }
+        studentName = nameInput;
+        
+        currentIndex = 0;
+        score = 0;
+        buildQuizData();
+        
+        document.getElementById("panel-login").style.display = "none";
+        document.getElementById("panel-quiz").style.display = "block";
+        
+        loadQuestion();
+    }
+
+    function loadQuestion() {
+        if (currentIndex >= quizQuestions.length) { endTest(); return; }
+        const q = quizQuestions[currentIndex];
+        
+        document.getElementById("current-q").innerText = currentIndex + 1;
+        document.getElementById("q-box").innerHTML = q.statement;
+        
+        const inputField = document.getElementById("user-answer");
+        inputField.value = "";
+        inputField.placeholder = q.placeholder;
+        inputField.focus();
+        
+        document.getElementById("progress-fill").style.width = (currentIndex / quizQuestions.length) * 100 + "%";
+    }
+
+    function submitAnswer() {
+        if (currentIndex >= quizQuestions.length) return;
+        const q = quizQuestions[currentIndex];
+        let userAnswer = document.getElementById("user-answer").value.trim();
+        if (!userAnswer) { alert("Vous devez saisir une réponse."); return; }
+        
+        q.savedAns = userAnswer;
+        if (q.check(userAnswer)) {
+            q.status = "correct";
+            score++;
+        } else {
+            q.status = "incorrect";
+        }
+        
+        currentIndex++; 
+        loadQuestion();
+    }
+
+    function skipQuestion() {
+        if (currentIndex >= quizQuestions.length) return;
+        const q = quizQuestions[currentIndex];
+        q.status = "skipped"; 
+        q.savedAns = "Passé ⏭️";
+        currentIndex++; 
+        loadQuestion();
+    }
+
+    function endTest() {
+        document.getElementById("panel-quiz").style.display = "none";
+        document.getElementById("panel-results").style.display = "block";
+        
+        document.getElementById("res-name").innerText = studentName;
+        const displayGrade = document.getElementById("res-grade");
+        displayGrade.innerText = `${score} / ${quizQuestions.length}`;
+        
+        if(score >= 6) displayGrade.style.color = "var(--accent-color)";
+        else if(score >= 4) displayGrade.style.color = "#ff9500";
+        else displayGrade.style.color = "#ff453a";
+
+        const tableBody = document.getElementById("bilan-table-body");
+        tableBody.innerHTML = ""; 
+        
+        for (let i = 0; i < quizQuestions.length; i++) {
+            const q = quizQuestions[i];
+            const row = document.createElement("tr");
+            
+            if (q.status === "correct") row.className = "row-correct";
+            else if (q.status === "skipped") row.className = "row-skipped";
+            else row.className = "row-incorrect";
+            
+            const badgeCorrection = q.status === "correct" 
+                ? `<span>Correct ✅</span>` 
+                : `<span style="font-weight:bold; color:#ff453a;">${q.answer}</span>`;
+                
+            row.innerHTML = `<td><strong>${q.type}</strong></td><td>${q.statement}</td><td>${q.savedAns}</td><td>${badgeCorrection}</td>`;
+            tableBody.appendChild(row);
+        }
+    }
+
+    document.getElementById("user-answer").addEventListener("keyup", function(e) { 
+        if (e.key === "Enter") submitAnswer(); 
+    });
+</script>
+</body>
+</html>
