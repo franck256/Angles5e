@@ -1,0 +1,43 @@
+        // --- FIGURE VECTORIELLE TYPE 2 : EXERCICE 4 DE LA FICHE (Calcul d'angle complexe) ---
+        let angleD = randRange(115, 140);
+        let angleAttendu = angleD - 90; // Propriété des angles correspondants/alternes-internes
+
+        const svgConfig2 = `
+            <svg class="geometry-svg" width="340" height="200" viewBox="0 0 340 200">
+                <!-- Droites horizontales (parallèles) -->
+                <line x1="20" y1="50" x2="300" y2="50" stroke="#ffffff" stroke-width="2"/>
+                <line x1="20" y1="130" x2="300" y2="130" stroke="#ffffff" stroke-width="2"/>
+                
+                <!-- Droite sécante verticale AB (perpendiculaire) -->
+                <line x1="80" y1="20" x2="80" y2="160" stroke="#8e8e93" stroke-width="2"/>
+                
+                <!-- Droite sécante inclinée (w x) passante par C et D -->
+                <line x1="30" y1="165" x2="280" y2="15" stroke="#39ff14" stroke-width="2"/>
+                
+                <!-- Symboles Angles Droits (parfaitement alignés à 90°) -->
+                <rect x="80" y="50" width="10" height="10" fill="none" stroke="#39ff14" stroke-width="1.5"/>
+                <rect x="80" y="120" width="10" height="10" fill="none" stroke="#39ff14" stroke-width="1.5"/>
+                
+                <!-- Lettres des Sommets et axes -->
+                <text x="65" y="45" fill="#fff" font-size="13" font-weight="bold">A</text>
+                <text x="65" y="145" fill="#fff" font-size="13" font-weight="bold">B</text>
+                <text x="215" y="45" fill="#fff" font-size="13" font-weight="bold">C</text>
+                <text x="155" y="145" fill="#fff" font-size="13" font-weight="bold">D</text>
+                
+                <text x="290" y="45" fill="#8e8e93" font-size="11">y</text>
+                <text x="290" y="125" fill="#8e8e93" font-size="11">z</text>
+                <text x="25" y="180" fill="#8e8e93" font-size="11">w</text>
+                <text x="275" y="30" fill="#8e8e93" font-size="11">x</text>
+                
+                <!-- Arc de cercle pour l'angle obtus donné en D (wDz) -->
+                <path d="M 166.6 130 A 20 20 0 0 0 188.3 141 L 171.6 130 Z" fill="rgba(255,149,0,0.4)" stroke="#ff9500" stroke-width="1.5"/>
+                <text x="165" y="165" fill="#ff9500" font-size="13" font-weight="bold">${angleD}°</text>
+            </svg>`;
+
+        // Q4 : Calcul direct sur modèle de l'exercice 4
+        quizQuestions.push({
+            type: "Calcul de mesure (Ex 4)",
+            display: svgConfig2 + `<div class="statement-text">Les droites (AB) et (AC) sont perpendiculaires, de même que (AB) et (BD)[span_3](start_span)[span_3](end_span). Calcule la mesure de l'angle ̂ACD (en degrés) :</div>`,
+            answer: `${angleAttendu}`,
+            check: function(u) { return parseInt(u.trim()) === angleAttendu; }
+        });
